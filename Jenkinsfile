@@ -5,12 +5,12 @@ pipeline {
         DOCKER_IMAGE = "subhendu083/node-app:latest"
     }
 
-    stages {
+     /*stages {
         stage('Clone Repo') {
             steps {
                 git 'https://github.com/subhenduarun/your-repo.git'
             }
-        }
+        }*/
 
         stage('Build Docker Image') {
             steps {
