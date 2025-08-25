@@ -22,6 +22,16 @@ pipeline {
             }
         }
 
+        stage('Test Docker Hub Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
+                    }
+                }
+            }
+        }
+
         stage('Push to Docker Hub') {
             steps {
                 script {
@@ -32,9 +42,6 @@ pipeline {
             }
         }
     }
-<<<<<<< HEAD
-}
-=======
 
     post {
         always {
@@ -42,4 +49,3 @@ pipeline {
         }
     }
 }
->>>>>>> ba6ae2a6a6aef3b80a2170069e22d11a007603a8
