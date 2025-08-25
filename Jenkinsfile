@@ -2,23 +2,31 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "subhendu083/node-app:latest"
+        IMAGE_NAME = "subhendu083/node-app"
+        IMAGE_TAG  = "latest"
     }
 
     stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/subhenduarun/devops-pipeline-demo'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE)
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
-                withDockerRegistry([credentialsId: 'docker-hub-creds', url: '']) {
-                    script {
-                        docker.image(DOCKER_IMAGE).push()
+                script {
+                    docker.withRegistry('', 'docker-hub-creds') {
+                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
                     }
                 }
             }
