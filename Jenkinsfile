@@ -32,4 +32,14 @@ pipeline {
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+
+    post {
+        always {
+            sh 'docker logout || true'
+        }
+    }
+}
+>>>>>>> ba6ae2a6a6aef3b80a2170069e22d11a007603a8
